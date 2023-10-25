@@ -10,7 +10,7 @@ RzrAudioProcessor::RzrAudioProcessor()
 #endif
         .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
-    ), apvts(*this, nullptr, "curState", createParams())
+    ), apvts(*this, &undoManager, "curState", createParams())
 #endif
 {
 }

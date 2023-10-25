@@ -48,6 +48,8 @@ public:
     juce::AudioProcessorValueTreeState apvts;
 
 private:
+    juce::UndoManager undoManager;
+
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
 
     // Chebyshev
