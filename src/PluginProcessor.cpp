@@ -10,7 +10,7 @@ RzrAudioProcessor::RzrAudioProcessor()
 #endif
         .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
-    ), apvts(*this, nullptr, "Parameters", createParams())
+    ), apvts(*this, nullptr, "curState", createParams())
 #endif
 {
 }
@@ -317,12 +317,22 @@ void RzrAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    std::unique_ptr<juce::XmlElement> xml(apvts.state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void RzrAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<juce::XmlElement> presetXml(getXmlFromBinary(data, sizeInBytes));
+    if (presetXml != nullptr)
+    {
+        if (presetXml -> hasTagName(apvts.state.getType()))
+        {
+            apvts.replaceState(juce::ValueTree::fromXml(*presetXml));
+        }
+    }
 }
 
 //==============================================================================
@@ -356,7 +366,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout RzrAudioProcessor::createPar
         "Quantized", "Chebyshev", "Foldback", "Tattered", "Rectified",
         "Orbit", "Xorbit", "Norbit", "Xnorbit", "Andbit", "Nandbit",
         "Fractal", "Systemic", "Resonant" }), 0));
-
+    // apvts.state = juce::ValueTree("curState"); // identifyer/tag/type name of apvts.state
     return { params.begin(), params.end() };
 }
 
