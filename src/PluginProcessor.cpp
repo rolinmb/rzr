@@ -366,7 +366,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout RzrAudioProcessor::createPar
         "Quantized", "Chebyshev", "Foldback", "Tattered", "Rectified",
         "Orbit", "Xorbit", "Norbit", "Xnorbit", "Andbit", "Nandbit",
         "Fractal", "Systemic", "Resonant" }), 0));
-    // apvts.state = juce::ValueTree("curState"); // identifyer/tag/type name of apvts.state
     return { params.begin(), params.end() };
 }
 
