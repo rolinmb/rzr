@@ -68,6 +68,7 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> selectorAttachment;
 
     juce::Image background;
+    juce::Image logo;
 
     RzrAudioProcessor& audioProcessor;
 

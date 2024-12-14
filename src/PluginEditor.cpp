@@ -71,6 +71,7 @@ RzrAudioProcessorEditor::RzrAudioProcessorEditor(RzrAudioProcessor& p)
     selectorAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.apvts, "FX TYPE", fxSelector);
 
     background = juce::ImageCache::getFromMemory(BinaryData::lazrBackground_png, BinaryData::lazrBackground_pngSize);
+    logo = juce::ImageCache::getFromMemory(BinaryData::rzrLogo_png, BinaryData::rzrLogo_pngSize);
 
     setSize(1200, 400);
 }
@@ -82,6 +83,7 @@ RzrAudioProcessorEditor::~RzrAudioProcessorEditor()
 void RzrAudioProcessorEditor::paint(juce::Graphics& g)
 {
     g.drawImageWithin(background, 0, 0, getWidth(), getHeight(), juce::RectanglePlacement::stretchToFit);
+    g.drawImageAt(logo, 50, 200, false);
 }
 
 void RzrAudioProcessorEditor::resized()
@@ -131,21 +133,10 @@ void RzrAudioProcessorEditor::buildSliderWithAttachment(juce::AudioProcessorValu
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
     slider.setRange(minVal, maxVal, interVal);
     slider.setValue(defaultVal);
-
     label.setText(labelText, juce::dontSendNotification);
     label.attachToComponent(&slider, false);
-
-    if (name != juce::String("QUANTIZATION") || name != juce::String("CHEBYORDER") || name != juce::String("FOLDBACK") ||
-        name != juce::String("FRACTAL") || name != juce::String("FRACTALITER") || name != juce::String("RESONANCE"))
-    {
-        addAndMakeVisible(slider);
-        addAndMakeVisible(label);
-    }
-    else
-    {
-        addChildComponent(slider);
-        addChildComponent(label);
-    }
+    addAndMakeVisible(slider);
+    addAndMakeVisible(label);
 
     attachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(apvts, name, slider);
 }
