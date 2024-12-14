@@ -83,7 +83,7 @@ RzrAudioProcessorEditor::~RzrAudioProcessorEditor()
 void RzrAudioProcessorEditor::paint(juce::Graphics& g)
 {
     g.drawImageWithin(background, 0, 0, getWidth(), getHeight(), juce::RectanglePlacement::stretchToFit);
-    g.drawImageAt(logo, 50, 200, false);
+    g.drawImageAt(logo, 50, 175, false);
 }
 
 void RzrAudioProcessorEditor::resized()
